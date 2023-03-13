@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import { Checkbox ,CloseButton} from '@mantine/core';
+import { Textarea } from '@mantine/core';
+import { DateSelect } from "../DateSelect/DateSelect";
 //DND
 import { Draggable } from "react-beautiful-dnd";
 //Styles
@@ -11,6 +13,7 @@ import { MdDone } from "react-icons/md";
 
 //Todo Model
 import { Todo } from "../../model/model";
+import { text } from "stream/consumers";
 
 interface Props {
   index: number;
@@ -19,26 +22,26 @@ interface Props {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-  const SingleTodo = ({ todo, todos, setTodos, index }: Props) => {
+const SingleTodo = ({ todo, todos, setTodos, index }: Props) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
-  
+
 
 
   const [editTodoText, setEditTodoText] = useState<string>(todo.todo);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleDone = (event:any,id: number,isDone:boolean) => {
-  
-    if(!isDone){
+ const inputRef = useRef<HTMLTextAreaElement>(null);
+  const handleDone = (event: any, id: number, isDone: boolean) => {
+
+    if (!isDone) {
       setClickPosition({ x: event.clientX, y: event.clientY });
       setShow(true)
-       setTimeout(() => {
-         setShow(false)
-       }, 2000);
-       console.log('done')
+      setTimeout(() => {
+        setShow(false)
+      }, 2000);
+      console.log('done')
     }
-   
+
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
@@ -65,62 +68,58 @@ interface Props {
   }, [edit]);
 
   return (
-   <>
-         {show &&  <Confetti
-    numberOfPieces={50}     
-    confettiSource={{
-      w: 100,
-      h: 20,
-      x: clickPosition.x ,
-      y: clickPosition.y
-    }}
-   
-  />}
-   <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided, snapshot) => (
-       
-       <form
-          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
-          onSubmit={(e) => handleEdit(e, todo.id)}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
-          {edit ? (
-            <input
-              ref={inputRef}
-              value={editTodoText}
-              onChange={(e) => setEditTodoText(e.target.value)}
-              className="todos__single--text"
-            />
-          ) : todo.isDone ? (
-            <s className="todos__single--text">{todo.todo}</s>
-          ) : (
-            <span className="todos__single--text">{todo.todo}</span>
-          )}
+    <>
+      {show && <Confetti
+        numberOfPieces={50}
+        confettiSource={{
+          w: 100,
+          h: 20,
+          x: clickPosition.x,
+          y: clickPosition.y
+        }}
 
-          <div className="todos__single__icons">
-            <span className="icon">
-              <AiFillEdit
-                onClick={() => {
+      />}
+      <Draggable draggableId={todo.id.toString()} index={index}>
+        {(provided, snapshot) => (
+
+          <form
+            className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+            onSubmit={(e) => handleEdit(e, todo.id)}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          > 
+            <>
+              
+              <Checkbox
+                onClick={(event) => handleDone(event, todo.id, todo.isDone)}
+                color="teal"
+                radius="lg"
+              />
+
+  
+              <Textarea
+                onBlur={() => {
                   if (!edit && !todo.isDone) {
                     setEdit(!edit);
                   }
                 }}
+                ref={inputRef}
+                value={editTodoText}
+                onChange={(e) => setEditTodoText(e.target.value)}
+                className="todos__single--text"
               />
-            </span>
-            <span className="icon" onClick={() => handleDelete(todo.id)}>
-              <AiFillDelete />
-            </span>
-            <span className="icon" onClick={(event) => handleDone(event,todo.id,todo.isDone)}>
-              <MdDone />
-            </span>
-          </div>
-        </form>
-      )}
-    </Draggable>
-   </>
-   
+
+              <DateSelect 
+              title=""/>
+              
+            </>
+            <CloseButton  className="dicon" aria-label="Close modal"  radius="lg" onClick={() => handleDelete(todo.id)}  />
+          </form>
+        )}
+      </Draggable>
+    </>
+
   );
 };
 

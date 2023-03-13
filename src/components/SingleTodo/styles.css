@@ -5,11 +5,7 @@
   border-radius: 5px;
   padding: 20px;
   margin-top: 15px;
-  background: linear-gradient(
-    127deg,
-    rgba(255, 237, 0, 1) 22%,
-    rgba(201, 187, 0, 1) 100%
-  );
+  background-color: white;
   transition: 0.2s;
 }
 
@@ -22,7 +18,9 @@
   flex: 1;
   padding: 1px;
   border: none;
+  white-space: pre-wrap;
   font-size: 20px;
+  word-break: break-all 
 }
 
 .todos__single--text:focus {
@@ -73,4 +71,25 @@
   height: 100%;
   top: 0;
   left: 0;
+}
+
+.mantine-Textarea-input{
+  flex: 1;
+  padding: 1px;
+  font-size: 20px;
+  height: 40px;
+}
+
+
+ .dicon{
+  top: -10px;
+  right: -10px;
+  opacity: .2;
+  position: absolute; 
+  background-color: red;
+}
+
+.dicon:hover{
+  background-color: red;
+  opacity: .6;
 }

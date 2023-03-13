@@ -1,7 +1,6 @@
 .todos {
   display: flex;
-  width: 47.5%;
-  gap: 5px;
+  width: 30%;
   flex-direction: column;
   padding: 15px;
   border-radius: 5px;
@@ -18,7 +17,7 @@
   display: flex;
   width: 95%;
   margin-top: 10px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
 }
 

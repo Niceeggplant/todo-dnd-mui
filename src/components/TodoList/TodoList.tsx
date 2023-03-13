@@ -118,7 +118,14 @@ export const TodoList: React.FC<Props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">Completed Tasks</span>
+            <div className="Today_todayListTitle">
+
+<span>✍🏻 待办清单</span>
+<span className="Today_todayTime"> 
+ 
+</span>
+</div>
+          
             <InputField todo={todoC} setTodo={setCTodo} handleAdd={handleCAdd} />
             {completedTodos.map((todo, index) => (
               <SingleTodo
